@@ -4,10 +4,61 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.decorators import api_view, action
 from rest_framework.views import APIView
 from .models import Students, Scores
-from .serializers import StudentSerializer, ScoreSerializer
+from .serializers import StudentSerializer, ScoreSerializer, StudentBasicSerializer,ScoreBasicSerializer
 from rest_framework.response import Response
 
 
+
+@api_view(['GET','POST'])
+def StudentBasicView(request):
+    if request.method == 'GET':
+        student = Students.objects.all()
+        serializer = StudentBasicSerializer(student, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = StudentBasicSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+@api_view(['PUT'])
+def StudentDetailBasicView(request, pk):
+    if request.method == 'PUT':
+        student = Students.objects.get(pk=pk)
+        serializer = StudentBasicSerializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
+
+@api_view(['GET','POST'])
+def ScoreBasicView(request):
+    if request.method == 'GET':
+        score = Scores.objects.all()
+        serializer = ScoreBasicSerializer(score, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = ScoreBasicSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+@api_view(['PUT'])
+def ScoreDetailBasicView(request, pk):
+    if request.method == 'PUT':
+        score = Scores.objects.get(pk=pk)
+        serializer = ScoreBasicSerializer(score, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+
+##################################################################
 class StudentView(ModelViewSet):
 
     queryset = Students.objects.all()
@@ -64,7 +115,7 @@ class ScoreView(ModelViewSet):
 
 
 # ###############합 270점 이상##############################
-##g함수명이 주소가 됨
+##함수명이 주소가 됨
     @action(detail=False, methods=['GET'])
     def top(self, request):
         qs = self.get_queryset().filter(math__gte=80, english__gte=80, science__gte=80)

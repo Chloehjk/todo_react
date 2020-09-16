@@ -8,6 +8,10 @@ router.register('scores', views.ScoreView)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('test', views.StudentBasicView),
+    path('test/<pk>', views.StudentDetailBasicView),
+    path('testscore', views.ScoreBasicView),
+    path('testscore/<pk>', views.ScoreDetailBasicView),
     
     ##########CBV############
     # path('students', views.StudentView.as_view()),
