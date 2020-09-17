@@ -49,7 +49,7 @@ class ScoreBasicSerializer(Serializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = '__all__'
+        fields = ['username']
 
 
 class StudentSerializer(ModelSerializer):
@@ -63,18 +63,19 @@ class StudentSerializer(ModelSerializer):
     
     class Meta:
         model = Students
-        fields = ['name','address', 'email', 'memo', 'reg_user', 'reg_user_username', 'reg_user_email', 'reg_phone_number']
+        fields = '__all__'
 
     
-    def validate(self, value):
-        text = re.search('.+@.*\..+', value['email'])
+    def validate_email(self, value):
+        text = re.match('.+@.*\..+', value)
         if text == None:
             raise ValidationError('제대로 된 이메일 형식을 지켜주세요!')
-        return value['email']
+        return value
             
-    def phone_validate(self, value):
-        text = re.search('01+[0-9]-[0-9]{3,4}-[0-9]{3,4}', value['phone_number'])
-        if text == None:
+
+    def validate_phone_number(self, value):
+        result = re.match('01+[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}', value)
+        if result == None:
             raise ValidationError('전화번호 형식을 지켜주세요!')
         return value['phone_number']
 
@@ -96,7 +97,7 @@ class ScoreSerializer(ModelSerializer):
         #         raise ValidationError('3글자 이상 입력해주세요!')
         #     return value
 
-    def validate(self, value):
-        if (value['math'] < 0) or (value['math'] > 101):
+    def validate_math(self, math):
+        if not(0 < math < 100):
             raise ValidationError('0에서 100사이의 값만 입력해주세요')
-        return value
+        return math
