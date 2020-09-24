@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from .serializers import SignupSerializer
+from .serializes import SignupSerializer
 from rest_framework.decorators import api_view
 # Create your views here.
 @api_view(['GET','POST'])
