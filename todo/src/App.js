@@ -29,6 +29,7 @@ import AxiosScores from 'AxiosScores';
 import RouterTest from 'RouterTest';
 import Practice from 'Practice';
 import MysiteFront from 'MysiteFront';
+import Git from 'Git'
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
       {/* <RouterTest/> */}
       {/* <Practice/> */}
       <MysiteFront/>
+
     </div>
   );
 }

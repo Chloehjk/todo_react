@@ -18,3 +18,4 @@ class SkillSerializer(ModelSerializer):
     class Meta:
         model = Skill
         fields = '__all__'
+        

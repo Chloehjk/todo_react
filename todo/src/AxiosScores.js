@@ -10,6 +10,7 @@ export default function AxiosScores () {
         .then(response => {
             const {data} = response;
             setScores(data);
+            console.log(data)
         }).catch(error => {
         });
     },[])

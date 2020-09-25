@@ -20,3 +20,4 @@ class SkillView(ModelViewSet):
     
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
+    

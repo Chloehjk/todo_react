@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class Profile(models.Model):
     name = models.CharField(max_length=10)
@@ -21,3 +20,4 @@ class Skill(models.Model):
     skillname = models.CharField(max_length=50)
     degree = models.CharField(max_length=30)
     memo = models.CharField(max_length=100)
+
