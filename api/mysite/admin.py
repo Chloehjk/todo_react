@@ -9,10 +9,10 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Experience)
 class ExperienceAdmin(admin.ModelAdmin):
-    list_display = ['title', 'when', 'institution', 'memo']
-    list_display_links = ['title', 'when', 'institution', 'memo']
+    list_display = ['title', 'start_date', 'end_date', 'institution', 'memo']
+    list_display_links = ['title', 'start_date', 'end_date', 'institution', 'memo']
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ['skillname','degree','memo']
-    list_display_links = ['skillname','degree','memo']
+    list_display = ['certification', 'certification_num', 'programming', 'degree', 'memo']
+    list_display_links = ['certification', 'certification_num', 'programming', 'degree', 'memo']

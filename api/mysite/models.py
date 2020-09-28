@@ -12,12 +12,15 @@ class Profile(models.Model):
 
 class Experience(models.Model):
     title = models.CharField(max_length=50)
-    when = models.CharField(max_length=50)
-    institution = models.CharField(max_length=20, null=True)
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField()
+    institution = models.CharField(max_length=20)
     memo = models.CharField(max_length=500)
 
 class Skill(models.Model):
-    skillname = models.CharField(max_length=50)
-    degree = models.CharField(max_length=30)
-    memo = models.CharField(max_length=100)
+    certification = models.CharField(max_length=50, null=True)
+    certification_num = models.CharField(max_length=50, null=True)
+    programming = models.CharField(max_length=30, null=True)
+    degree = models.CharField(max_length=10, null=True)
+    memo = models.CharField(max_length=100, null=True)
 

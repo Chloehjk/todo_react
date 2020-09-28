@@ -19,14 +19,12 @@ export default function Profile () {
         <div>
             <Divider orientation="left">Introduce</Divider>
             <List
-            size="large"
-            header={<div>Who am I</div>}
-            footer={<div>Footer</div>}
+            header={<div className='first'>Who am I</div>}
             bordered
             dataSource={info}
             renderItem={item => 
                 <div>
-                    <table>
+                    <table id='profile'>
                         <tr>
                             <th>이름</th>
                             <td><List.Item>{item.name}</List.Item></td>
@@ -40,7 +38,7 @@ export default function Profile () {
                             <td><List.Item>{item.university}</List.Item></td>
                         </tr>
                         <tr>
-                            <th>전공/부전공</th>
+                            <th>전공 / 부전공</th>
                             <td><List.Item>{item.major}</List.Item></td>
                         </tr>
                         <tr>
