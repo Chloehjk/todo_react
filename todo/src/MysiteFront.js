@@ -11,6 +11,7 @@ import {
   CheckCircleOutlined
 } from '@ant-design/icons';
 import {Route, Link, Switch} from 'react-router-dom'
+import Login from 'account/Login'
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -56,6 +57,7 @@ export default function Mysite () {
                 <Route exact path = '/' component={Profile}/>
                 <Route exact path = '/experience' component={Experience}/>
                 <Route exact path = '/skill' component={Skill}/>
+                <Route exact path = '/Login' component={Login} />
               </Switch>
             </div>
           </Content>

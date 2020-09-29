@@ -56,6 +56,7 @@
 
 .lists > li > button {
     float: right;
+    margin-left: 5px;
 }
 
 .lists {

@@ -125,8 +125,7 @@ export default function Experience () {
                     <List.Item>
                         {item.title}
                             <Button className="add" onClick={()=>{ deletelist(item.id) }} shape="circle" icon={<DeleteOutlined />} />
-                    </List.Item>
-                        
+                    </List.Item>                        
                     <List.Item>{item.start_date}</List.Item>
                     <List.Item>{item.institution}</List.Item>
                     <List.Item>{item.memo}</List.Item>

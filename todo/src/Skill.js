@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React from 'react';
 import { Divider, List, Button, Tooltip, Modal, Input, Rate } from 'antd';
-import { PlusOutlined, FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
+import { PlusOutlined, FrownOutlined, MehOutlined, SmileOutlined, DeleteOutlined, ToolOutlined } from '@ant-design/icons';
 
 export default function Skill () {
     
@@ -14,6 +14,7 @@ export default function Skill () {
         memo : ''
     })
     const [state, setState] = React.useState({ visible: false });
+    const [modify, setModify] = React.useState({ visible: false });
     const {TextArea} = Input;
     const customIcons = {
         1: <FrownOutlined />,
@@ -41,7 +42,6 @@ export default function Skill () {
         });
       };
 /////////////////////////모달 창 OK랑 연결/////////////////////////
-    
     const handleOk = e => {
     // console.log(skill)
     setState({
@@ -59,7 +59,6 @@ export default function Skill () {
     };
 
 /////////////////////////모달창 cancel이랑 연결/////////////////////////
-      
       const handleCancel = e => {
         console.log(e);
         setState({
@@ -71,14 +70,12 @@ export default function Skill () {
     //   const change  = (e) => {
     //       setSkill(e.target.value);
     //   };
-    const change = (event) => {
-
-            console.log(event);
-            setSkill({
-                ...skill,
-                [event.target.name]:event.target.value
-            });
-        };
+    const change = (event) => {        
+        setSkill({
+            ...skill,
+            [event.target.name]:event.target.value
+        });
+    };
     
     const changeEmoji = (event) => {
            setSkill({
@@ -87,8 +84,26 @@ export default function Skill () {
             });
         console.log(event);
     };
-    
-
+/////////////////////////값 삭제하기/////////////////////////
+    const deletelist = (id) => {
+        Axios.delete('http://127.0.0.1:8000/mysite/skill/'+id)
+    .then(res => {
+        return Axios.get('http://127.0.0.1:8000/mysite/skill/')
+    }).catch(error => {        
+        }).then (res => {
+            const{data} = res
+            setInfo(data)
+        }).catch(error => {            
+        });   
+    };    
+/////////////////////////값 수정하기///////////////////////// 
+    // const modifylist = (id) => {
+    //     Axios.get('http://127.0.0.1:8000/mysite/skill/' + id)
+    //     .then(res => {
+    //         setSkill(res.data)
+    //     })
+    //     showModal()
+    // }
 
     return (
         <div>
@@ -110,7 +125,11 @@ export default function Skill () {
             dataSource={info}
             renderItem={item => 
                 <div className='lists'>
-                    <List.Item>{item.certification}</List.Item>
+                    <List.Item>
+                        {item.certification}
+                        <Button className="delete" onClick={()=>{ deletelist(item.id) }} shape="circle" icon={<DeleteOutlined />} />
+                        <Button className="modify"  shape="circle" icon={<ToolOutlined />} />
+                    </List.Item>
                     <List.Item>{item.certification_num}</List.Item>
                     <List.Item>{item.programming}</List.Item>
                     <List.Item>
@@ -174,6 +193,57 @@ export default function Skill () {
                         style={{ width: 300 }} />
                 </div>
             </Modal>
+
+            {/* <Modal
+                title="Modify Skill"
+                visible={modify.visible}
+                onOk={handleModfiyOk}
+                onCancel={handleModifyCancel}
+                >
+                <div className='list'>
+                    <div className='addlist'>
+                    자격증
+                    </div>
+                        <Input onChange={change} name='certification' value={skill.certification} placeholder="Basic usage" />
+                    </div>
+                <div className='list'>
+                    <div className='addlist'>
+                    자격증 번호
+                    </div>
+                    <Input onChange={change} name='certification_num' value={skill.certification_num} placeholder="Basic usage" />
+                </div>
+                <div className='list'>
+                    <div className='addlist'>
+                    프로그래밍 언어
+                    </div>
+                    <Input onChange={change} name='programming' value={skill.programming} placeholder="Basic usage" />
+                </div>
+                <div className='list'>
+                    <div className='addlist'>
+                        사용 능력 정도
+                    </div>
+                    <Rate
+                    name='degree'
+                    onChange={changeEmoji}
+                    value={skill.degree}
+                    defaultValue={2}
+                    character={({ index }) => {
+                        return customIcons[index + 1];
+                    }}
+                    />
+                </div>
+                <div className='list'>
+                    <div className='memo'>
+                        메모
+                    </div>
+                        <TextArea
+                        onChange={change}
+                        name='memo'
+                        value={skill.memo}
+                        rows={4}
+                        style={{ width: 300 }} />
+                </div>
+            </Modal> */}
         </div>
     )
 }
