@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React from 'react';
 import { Divider, List, Button, Tooltip, Modal, Input, DatePicker, Space } from 'antd';
-import { PlusOutlined, AudioOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 
@@ -9,7 +9,6 @@ export default function Experience () {
     
     const [info, setInfo] = React.useState([]);
     const [state, setState] = React.useState({ visible: false });
-    const {Search} = Input;
     const {RangePicker} = DatePicker;
     const dateFormat = 'YYYY/MM/DD';
     const {TextArea} = Input;
@@ -20,7 +19,7 @@ export default function Experience () {
         memo : ''
     })
     
-
+/////////////////////////창이 만들어질 때/////////////////////////
     React.useEffect(() => {
         Axios.get('http://127.0.0.1:8000/mysite/experience/')
         .then(res => {
@@ -30,21 +29,40 @@ export default function Experience () {
         });
     },[])
 
-   
+/////////////////////////모달 창 생성/////////////////////////   
     const showModal = () => {
       setState({
         visible: true,
       });
     };
-  
-    const handleOk = e => {
-    console.log(experience)
+
+/////////////////////////모달 창 OK랑 연결/////////////////////////
+    const handleOk = e => {        
+    const exp = {...experience,
+                    start_date:experience.date[0].format("YYYY-MM-DD"),
+                    end_date:experience.date[1].format("YYYY-MM-DD")
+                }
+           //////////////쓸데없는 값 삭제해주기////////////////
+    delete exp['date']
+    console.log(exp);
     //   console.log(e);
       setState({
         visible: false,
       });
+            //////////////입력값 post하고 사이트에 띄우기////////////////
+    Axios.post('http://127.0.0.1:8000/mysite/experience/', exp)
+    .then(res => {
+        return Axios.get('http://127.0.0.1:8000/mysite/experience/')
+    }).catch(error => {        
+        }).then (res => {
+            const{data} = res
+            setInfo(data)
+        }).catch(error => {            
+        });    
     };
-  
+     
+/////////////////////////모달창 cancel이랑 연결/////////////////////////
+
     const handleCancel = e => {
       console.log(e);
       setState({
@@ -52,24 +70,39 @@ export default function Experience () {
       });
     };
 
+/////////////////////////값 바뀔 때/////////////////////////
+
     const change  = (e) => {
-
-        console.log(e.target);
-
         setExperience({
             ...experience,
             [e.target.name]:e.target.value
         });
     };
-
+/////////////////////////달력에서 값이 바뀔 때/////////////////////////
     const changeDate = (e) => {
         setExperience({
+            ...experience,
             date:e
         })
         // console.log(e[0].format("YYYY-MM-DD"));
         // console.log(e[1].format("YYYY-MM-DD"));
     }
+
+/////////////////////////값 삭제하기/////////////////////////
+    const deletelist = (id) => {
+        Axios.delete('http://127.0.0.1:8000/mysite/experience/'+id)
+    .then(res => {
+        return Axios.get('http://127.0.0.1:8000/mysite/experience/')
+    }).catch(error => {        
+        }).then (res => {
+            const{data} = res
+            setInfo(data)
+        }).catch(error => {            
+        });    
+    };
     
+
+
     return (
         <div>
             <Divider orientation="left">
@@ -88,8 +121,12 @@ export default function Experience () {
             bordered
             dataSource={info}
             renderItem={item => 
-                <div>
-                    <List.Item>{item.title}</List.Item>
+                <div className='lists'>
+                    <List.Item>
+                        {item.title}
+                            <Button className="add" onClick={()=>{ deletelist(item.id) }} shape="circle" icon={<DeleteOutlined />} />
+                    </List.Item>
+                        
                     <List.Item>{item.start_date}</List.Item>
                     <List.Item>{item.institution}</List.Item>
                     <List.Item>{item.memo}</List.Item>

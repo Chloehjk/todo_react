@@ -23,8 +23,9 @@ export default function Profile () {
             bordered
             dataSource={info}
             renderItem={item => 
-                <div>
-                    <table id='profile'>
+                <div id='profile'>
+                    <div id='box'>
+                    <table>
                         <tr>
                             <th>이름</th>
                             <td><List.Item>{item.name}</List.Item></td>
@@ -55,6 +56,7 @@ export default function Profile () {
                             </td>
                         </tr>
                     </table>
+                    </div>
                 </div>}
             />
         </div>

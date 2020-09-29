@@ -14,7 +14,6 @@ export default function Skill () {
         memo : ''
     })
     const [state, setState] = React.useState({ visible: false });
-    const {Search} = Input;
     const {TextArea} = Input;
     const customIcons = {
         1: <FrownOutlined />,
@@ -23,6 +22,8 @@ export default function Skill () {
         4: <SmileOutlined />,
         5: <SmileOutlined />,
       };
+
+/////////////////////////창이 만들어질 때/////////////////////////
 
     React.useEffect(() => {
         Axios.get('http://127.0.0.1:8000/mysite/skill/')
@@ -33,21 +34,32 @@ export default function Skill () {
         });
     },[])
 
-
+/////////////////////////모달 창 생성/////////////////////////   
     const showModal = () => {
         setState({
           visible: true,
         });
       };
+/////////////////////////모달 창 OK랑 연결/////////////////////////
     
-      const handleOk = e => {
-        console.log(skill)
-        console.log(e);
-        setState({
-          visible: false,
+    const handleOk = e => {
+    // console.log(skill)
+    setState({
+        visible: false,
+    });
+    Axios.post('http://127.0.0.1:8000/mysite/skill/', skill)
+    .then(res => {
+        return Axios.get('http://127.0.0.1:8000/mysite/skill/')
+    }).catch(error => {
+        }).then(res => {
+            const{data} = res
+            setInfo(data)
+        }).catch(error => {            
         });
-      };
-    
+    };
+
+/////////////////////////모달창 cancel이랑 연결/////////////////////////
+      
       const handleCancel = e => {
         console.log(e);
         setState({
@@ -55,9 +67,27 @@ export default function Skill () {
         });
       };
 
-      const change  = (e) => {
-          setSkill(e.target.value);
-      };
+/////////////////////////값 바뀔 때/////////////////////////
+    //   const change  = (e) => {
+    //       setSkill(e.target.value);
+    //   };
+    const change = (event) => {
+
+            console.log(event);
+            setSkill({
+                ...skill,
+                [event.target.name]:event.target.value
+            });
+        };
+    
+    const changeEmoji = (event) => {
+           setSkill({
+                ...skill,
+                degree:event
+            });
+        console.log(event);
+    };
+    
 
 
     return (
@@ -79,11 +109,18 @@ export default function Skill () {
             bordered
             dataSource={info}
             renderItem={item => 
-                <div>
+                <div className='lists'>
                     <List.Item>{item.certification}</List.Item>
                     <List.Item>{item.certification_num}</List.Item>
                     <List.Item>{item.programming}</List.Item>
-                    <List.Item>{item.degree}</List.Item>
+                    <List.Item>
+                        ({item.degree}점/5점 만점)<br/>
+                        <Rate
+                        value={item.degree}
+                        character={({ index }) => {
+                            return customIcons[index + 1];
+                        }} disabled/>                       
+                    </List.Item>
                     <List.Item>{item.memo}</List.Item>
                 </div>}
             />
@@ -117,6 +154,7 @@ export default function Skill () {
                     </div>
                     <Rate
                     name='degree'
+                    onChange={changeEmoji}
                     value={skill.degree}
                     defaultValue={2}
                     character={({ index }) => {
