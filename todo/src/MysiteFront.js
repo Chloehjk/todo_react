@@ -30,18 +30,10 @@ export default function Mysite () {
     }
   },[]);
 
-  // useEffect(()=> {
-  //   Axios.get('http://127.0.0.1:8000/mysite/profile/', {
-  //     headers : {
-  //       Authorzation :  'JWT ' + getToken()
-  //     }
-  //   }).then(res=> {
-  //     const{data} = res;
-  //     set
-  //   })
-    
-  // })
-
+  const logout = () => {
+    window.localStorage.removeItem('token');
+    setIsLogin(false);
+  };
   
     const [state, setState] = React.useState({
         collapsed : false
