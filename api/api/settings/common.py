@@ -139,7 +139,9 @@ REST_FRAMEWORK = {
 import datetime
 
 JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA" : datetime.timedelta(days=30)
+    "JWT_EXPIRATION_DELTA" : datetime.timedelta(days=30),
+    "JWT_ALOGRITHM" : "HS256",
+    "JWT_ALLOW_REFRESH" : False
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

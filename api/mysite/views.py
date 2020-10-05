@@ -1,9 +1,7 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
 from .models import Profile, Experience, Skill
 from .serializer import ProfileSerializer, ExperienceSerializer, SkillSerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
