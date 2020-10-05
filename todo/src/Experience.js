@@ -18,7 +18,19 @@ export default function Experience () {
         institution : '',
         memo : ''
     })
-    
+
+
+/////////////////////////로그인 권한 주기//////////////////////
+    React.useEffect(() => {
+        Axios.get('http://127.0.0.1:8000/mysite/experience/', {
+            headers: {
+                Authorization : "JWT " + window.localStorage.getItem("token")
+            }
+        }).then(res=>{
+            const {data} = res;
+            setInfo(prev => data);
+        })        
+    },[])
 /////////////////////////창이 만들어질 때/////////////////////////
     React.useEffect(() => {
         Axios.get('http://127.0.0.1:8000/mysite/experience/')

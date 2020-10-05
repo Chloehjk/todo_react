@@ -1,18 +1,23 @@
 import Axios from 'axios';
 import React from 'react';
 import { Divider, List } from 'antd';
+import { getToken } from 'account/Util';
+
 
 export default function Profile () {
     
     const [info, setInfo] = React.useState([])
-
+    
+////////로그인하면 볼 수 있도록 하는 권한////////////////////////////
     React.useEffect(() => {
-        Axios.get('http://127.0.0.1:8000/mysite/profile/')
-        .then(res => {
+        Axios.get('http://127.0.0.1:8000/mysite/profile/', {
+            headers: {
+                Authorization : "JWT " + window.localStorage.getItem("token")
+            }
+        }).then(res=>{
             const {data} = res;
-            setInfo(data)
-        }).catch(error => {            
-        });
+            setInfo(prev => data);
+        })        
     },[])
 
     return (
