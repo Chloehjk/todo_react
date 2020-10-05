@@ -14,6 +14,7 @@ import {Route, Link, Switch} from 'react-router-dom'
 import Login from 'account/Login'
 import LoginContext from 'account/Util'
 import { getToken } from 'account/Util'
+import Empty from 'account/Empty'
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -26,9 +27,18 @@ export default function Mysite () {
 
     if (token != null){
       setIsLogin(true);
+    }else {
+      setIsLogin(false);
     }
-  },[]);
-  
+  });
+
+    const logout = () => {
+      window.localStorage.removeItem('token');
+      setIsLogin(false);
+    }
+
+
+    
     const [state, setState] = React.useState({
         collapsed : false
     })
@@ -66,7 +76,15 @@ export default function Mysite () {
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0 }}>
           <div style={{float:'right', marginRight:'35px'}}>
-            { isLogin ? <Button type='primary' size={size}>Logout</Button> : <Link exact to = '/login'><Button type='primary' size={size}>Login</Button></Link>}
+            { isLogin ?
+              <Button type='primary' size={size} onClick={logout}>
+                Logout
+              </Button> : 
+              <Link exact to = '/login'>
+              <Button type='primary' size={size}>
+                Login
+              </Button>
+              </Link>}
           </div>
           </Header>
           <Content style={{ margin: '0 16px' }}>
@@ -77,6 +95,7 @@ export default function Mysite () {
                 <Route exact path = '/skill' component={Skill}/>
                 <Route exact path = '/Login' component={Login} />
               </Switch>
+                <Route path='/' component={Empty} />
             </div>
           </Content>
         </Layout>
