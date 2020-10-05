@@ -27,18 +27,22 @@ export default function Mysite () {
 
     if (token != null){
       setIsLogin(true);
-    }else {
-      setIsLogin(false);
     }
-  });
+  },[]);
 
-    const logout = () => {
-      window.localStorage.removeItem('token');
-      setIsLogin(false);
-    }
-
-
+  // useEffect(()=> {
+  //   Axios.get('http://127.0.0.1:8000/mysite/profile/', {
+  //     headers : {
+  //       Authorzation :  'JWT ' + getToken()
+  //     }
+  //   }).then(res=> {
+  //     const{data} = res;
+  //     set
+  //   })
     
+  // })
+
+  
     const [state, setState] = React.useState({
         collapsed : false
     })
@@ -46,7 +50,6 @@ export default function Mysite () {
     const onCollapse = (collapsed) => {
         setState({collapsed});
     };
-
     const { size } = state;
     return (
       <>    
@@ -89,6 +92,10 @@ export default function Mysite () {
           </Header>
           <Content style={{ margin: '0 16px' }}>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+              <div>
+                {/* { isLogin ? <Button size={size}>Login</Button> : <Button size={size}>Logout</Button>} */}
+                { isLogin ? <div>로그인됨</div> : <div>로그인안됨</div> }
+              </div>
               <Switch>
                 <Route exact path = '/' component={Profile}/>
                 <Route exact path = '/experience' component={Experience}/>
