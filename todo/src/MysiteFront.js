@@ -85,7 +85,6 @@ export default function Mysite () {
           <Content style={{ margin: '0 16px' }}>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               <div>
-                {/* { isLogin ? <Button size={size}>Login</Button> : <Button size={size}>Logout</Button>} */}
                 { isLogin ? <div>로그인됨</div> : <div>로그인안됨</div> }
               </div>
               <Switch>
